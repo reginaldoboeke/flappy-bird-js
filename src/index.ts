@@ -1,12 +1,26 @@
-import { tech } from './tech';
+console.log('[reginaldoboeke] Flappy Bird');
 
-function start() {
-  const app = document.querySelector('#app');
+import { Background } from './controllers/Background';
+import { FlappyBird } from './controllers/FlappyBird';
+import { Floor } from './controllers/Floor';
 
-  if (!app) return;
+const sprites = new Image();
+sprites.src = '../assets/sprites.png';
 
-  app.innerHTML = `Hello ${tech}!`;
-}
+const canvas  = document.querySelector<HTMLCanvasElement>('canvas#game') as HTMLCanvasElement;
+const context = canvas.getContext('2d') as CanvasRenderingContext2D;
+
+const flappyBird = new FlappyBird(context, sprites);
+const floor = new Floor(canvas, context, sprites);
+const background = new Background(canvas, context, sprites);
+
+function start(): void {
+  background.draw();
+  floor.draw();
+  flappyBird.update();
+  flappyBird.draw();
+
+  requestAnimationFrame(start);
+} 
 
 start();
-
