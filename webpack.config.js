@@ -2,13 +2,19 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    index: ['./src/index.ts']
+    bundle: ['./src/index.ts']
   },
+  mode: 'development',
+  devtool: 'source-map',
   devServer: {
-    contentBase: path.join(__dirname, 'public'),
+    contentBase: [
+      path.join(__dirname, 'public'),
+      path.join(__dirname, 'public', 'assets'),
+    ],
     host: 'localhost',
     port: 3000,
-    hot: true
+    hot: true,
+    writeToDisk: true,
   },
   module: {
     rules: [
@@ -17,6 +23,10 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
+        loader: 'file-loader'
+      }
     ],
   },
   resolve: {
